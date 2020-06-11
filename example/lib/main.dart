@@ -18,6 +18,7 @@ final customTheme = ThemeData(
   primarySwatch: Colors.blue,
   brightness: Brightness.dark,
   accentColor: Colors.redAccent,
+  scaffoldBackgroundColor: Color(0xFF7C7C7C),
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4.00)),

@@ -42,7 +42,7 @@ class PlacesAutocompleteWidget extends StatefulWidget {
   PlacesAutocompleteWidget(
       {@required this.apiKey,
       this.mode = Mode.fullscreen,
-      this.hint = "Search",
+      this.hint = "Location Search",
       this.overlayBorderRadius,
       this.offset,
       this.location,
@@ -77,7 +77,8 @@ class PlacesAutocompleteWidget extends StatefulWidget {
 class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
   @override
   Widget build(BuildContext context) {
-    final appBar = AppBar(title: AppBarPlacesAutoCompleteTextField());
+    final appBar = AppBar(title: AppBarPlacesAutoCompleteTextField(), 
+    backgroundColor: Color(0xFF7C7C7C),);
     final body = PlacesAutocompleteResult(
       onTap: Navigator.of(context).pop,
       logo: widget.logo,
@@ -99,7 +100,6 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
 
     final header = Column(children: <Widget>[
       Material(
-          color: theme.dialogBackgroundColor,
           borderRadius: BorderRadius.only(
             topLeft: headerTopLeftBorderRadius,
             topRight: headerTopRightBorderRadius
@@ -107,20 +107,9 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              IconButton(
-                color: theme.brightness == Brightness.light
-                    ? Colors.black45
-                    : null,
-                icon: _iconBack,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+             
               Expanded(
-                  child: Padding(
-                child: _textField(context),
-                padding: const EdgeInsets.only(right: 8.0),
-              )),
+                  child: _textField(context)),
             ],
           )),
       Divider(
@@ -145,7 +134,7 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
         _response == null ||
         _response.predictions.isEmpty) {
       body = Material(
-        color: theme.dialogBackgroundColor,
+        color: Colors.white,
         child: widget.logo ?? PoweredByGoogleImage(),
         borderRadius: BorderRadius.only(
           bottomLeft: bodyBottomLeftBorderRadius,
@@ -159,7 +148,7 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
             bottomLeft: bodyBottomLeftBorderRadius,
             bottomRight: bodyBottomRightBorderRadius,
           ),
-          color: theme.dialogBackgroundColor,
+          color: Colors.blue,
           child: ListBody(
             children: _response.predictions
                 .map(
@@ -201,7 +190,7 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
                 : null,
             fontSize: 16.0),
         decoration: InputDecoration(
-          hintText: widget.hint,
+          hintText: 'Search Location',
           hintStyle: TextStyle(
             color: Theme.of(context).brightness == Brightness.light
                 ? Colors.black45
@@ -218,7 +207,7 @@ class _Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         constraints: BoxConstraints(maxHeight: 2.0),
-        child: LinearProgressIndicator());
+        child: LinearProgressIndicator(valueColor:new AlwaysStoppedAnimation<Color>(Colors.white)));
   }
 }
 
@@ -270,8 +259,14 @@ class _AppBarPlacesAutoCompleteTextFieldState
 
     return Container(
         alignment: Alignment.topLeft,
-        margin: EdgeInsets.only(top: 4.0),
+        decoration:  BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(25),
+          ),
+        ),
         child: TextField(
+          cursorColor: Colors.white,
           controller: state._queryTextController,
           autofocus: true,
           style: TextStyle(
@@ -285,7 +280,7 @@ class _AppBarPlacesAutoCompleteTextFieldState
             filled: true,
             fillColor: Theme.of(context).brightness == Brightness.light
                 ? Colors.white30
-                : Colors.black38,
+                : Color(0xFF7C7C7C),
             hintStyle: TextStyle(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black38
