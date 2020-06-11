@@ -77,8 +77,17 @@ class PlacesAutocompleteWidget extends StatefulWidget {
 class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
   @override
   Widget build(BuildContext context) {
-    final appBar = AppBar(title: AppBarPlacesAutoCompleteTextField(), 
-    backgroundColor: Color(0xFF7C7C7C),);
+    final appBar = AppBar(
+      title: AppBarPlacesAutoCompleteTextField(),
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Color(0xFFFBFBFB)
+          : Color(0xFF7C7C7C),
+      iconTheme: IconThemeData(
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.black45
+            : Colors.white, //change your color here
+      ),
+    );
     final body = PlacesAutocompleteResult(
       onTap: Navigator.of(context).pop,
       logo: widget.logo,
@@ -92,24 +101,23 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final headerTopLeftBorderRadius = widget.overlayBorderRadius != null ? 
-      widget.overlayBorderRadius.topLeft : Radius.circular(2);
+    final headerTopLeftBorderRadius = widget.overlayBorderRadius != null
+        ? widget.overlayBorderRadius.topLeft
+        : Radius.circular(2);
 
-    final headerTopRightBorderRadius = widget.overlayBorderRadius != null ? 
-      widget.overlayBorderRadius.topRight : Radius.circular(2);
+    final headerTopRightBorderRadius = widget.overlayBorderRadius != null
+        ? widget.overlayBorderRadius.topRight
+        : Radius.circular(2);
 
     final header = Column(children: <Widget>[
       Material(
           borderRadius: BorderRadius.only(
-            topLeft: headerTopLeftBorderRadius,
-            topRight: headerTopRightBorderRadius
-          ),
+              topLeft: headerTopLeftBorderRadius,
+              topRight: headerTopRightBorderRadius),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-             
-              Expanded(
-                  child: _textField(context)),
+              Expanded(child: _textField(context)),
             ],
           )),
       Divider(
@@ -119,11 +127,13 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
 
     Widget body;
 
-    final bodyBottomLeftBorderRadius = widget.overlayBorderRadius != null ? 
-      widget.overlayBorderRadius.bottomLeft : Radius.circular(2);
+    final bodyBottomLeftBorderRadius = widget.overlayBorderRadius != null
+        ? widget.overlayBorderRadius.bottomLeft
+        : Radius.circular(2);
 
-    final bodyBottomRightBorderRadius = widget.overlayBorderRadius != null ? 
-      widget.overlayBorderRadius.bottomRight : Radius.circular(2);
+    final bodyBottomRightBorderRadius = widget.overlayBorderRadius != null
+        ? widget.overlayBorderRadius.bottomRight
+        : Radius.circular(2);
 
     if (_searching) {
       body = Stack(
@@ -177,9 +187,8 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
   }
 
   Icon get _iconBack => Theme.of(context).platform == TargetPlatform.iOS
-      ? Icon(Icons.arrow_back_ios): Icon(Icons.arrow_back);
-
-
+      ? Icon(Icons.arrow_back_ios)
+      : Icon(Icons.arrow_back);
 
   Widget _textField(BuildContext context) => TextField(
         controller: _queryTextController,
@@ -207,7 +216,11 @@ class _Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         constraints: BoxConstraints(maxHeight: 2.0),
-        child: LinearProgressIndicator(valueColor:new AlwaysStoppedAnimation<Color>(Colors.white)));
+        child: LinearProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(
+                Theme.of(context).brightness == Brightness.light
+                    ? Color(0xFFE1295E)
+                    : Colors.white)));
   }
 }
 
@@ -259,7 +272,7 @@ class _AppBarPlacesAutoCompleteTextFieldState
 
     return Container(
         alignment: Alignment.topLeft,
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
             Radius.circular(25),
@@ -468,26 +481,27 @@ class PlacesAutocomplete {
       ValueChanged<PlacesAutocompleteResponse> onError,
       String proxyBaseUrl,
       Client httpClient,
-      String startText=""}) {
+      String startText = ""}) {
     final builder = (BuildContext ctx) => PlacesAutocompleteWidget(
-        apiKey: apiKey,
-        mode: mode,
-        overlayBorderRadius: overlayBorderRadius,
-        language: language,
-        sessionToken: sessionToken,
-        components: components,
-        types: types,
-        location: location,
-        radius: radius,
-        strictbounds: strictbounds,
-        region: region,
-        offset: offset,
-        hint: hint,
-        logo: logo,
-        onError: onError,
-        proxyBaseUrl: proxyBaseUrl,
-        httpClient: httpClient,
-        startText: startText,);
+          apiKey: apiKey,
+          mode: mode,
+          overlayBorderRadius: overlayBorderRadius,
+          language: language,
+          sessionToken: sessionToken,
+          components: components,
+          types: types,
+          location: location,
+          radius: radius,
+          strictbounds: strictbounds,
+          region: region,
+          offset: offset,
+          hint: hint,
+          logo: logo,
+          onError: onError,
+          proxyBaseUrl: proxyBaseUrl,
+          httpClient: httpClient,
+          startText: startText,
+        );
 
     if (mode == Mode.overlay) {
       return showDialog(context: context, builder: builder);
