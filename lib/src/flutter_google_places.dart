@@ -279,7 +279,8 @@ class _AppBarPlacesAutoCompleteTextFieldState
           ),
         ),
         child: TextField(
-          cursorColor: Colors.white,
+          cursorColor: Theme.of(context).brightness == Brightness.light?
+          Color(0xFF393939):Colors.white,
           controller: state._queryTextController,
           autofocus: true,
           style: TextStyle(
